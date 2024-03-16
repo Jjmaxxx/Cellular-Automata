@@ -18,6 +18,16 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
     public AppPanel(AppFactory factory) {
 
         // initialize fields here
+        this.factory = factory;
+        model = factory.makeModel();
+        view = factory.makeView(model);
+        view.setBackground((Color.GRAY));
+        controlPanel = new JPanel();
+        controlPanel.setBackground((Color.PINK));
+        setLayout(new GridLayout(1, 2));
+        add(controlPanel);
+        add(view);
+        model.subscribe(this);
 
         frame = new SafeFrame();
         Container cp = frame.getContentPane();
@@ -67,8 +77,10 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
 
             if (cmmd.equals("Save")) {
                 Utilities.save(model, false);
+//                model.setUnsavedChanges(false);
             } else if (cmmd.equals("SaveAs")) {
                 Utilities.save(model, true);
+//                model.setUnsavedChanges(false);
             } else if (cmmd.equals("Open")) {
                 Model newModel = Utilities.open(model);
                 if (newModel != null) setModel(newModel);
@@ -86,6 +98,8 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
                 Utilities.inform(factory.getHelp());
             } else { // must be from Edit menu
                 //???
+                Command command = factory.makeEditCommand(model, cmmd, this);
+                command.execute();
             }
         } catch (Exception e) {
             handleException(e);

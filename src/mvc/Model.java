@@ -24,5 +24,13 @@ public abstract class Model extends Publisher implements Serializable {
         this.unsavedChanges = unsavedChanges;
     }
 
-    public void changed() {}
+    public void changed() {
+        setUnsavedChanges(true); //me
+        notifySubscribers();
+//        firePropertyChange("unsavedChanges", false, true);
+    }
+
+//    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+//
+//    }
 }
