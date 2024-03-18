@@ -5,8 +5,8 @@ import CALab.Cell;
 import java.awt.*;
 import java.util.Random;
 
-public class LifeCell extends Cell{
-    public LifeCell(boolean uniform){
+public class Agent extends Cell{
+    public Agent(boolean uniform){
         super(uniform);
     }
     @Override
@@ -15,7 +15,7 @@ public class LifeCell extends Cell{
 //        for (Cell item : neighbors) {
 //            System.out.println(" row: " + item.row + "col: " +item.col);
 //        }
-//        System.out.println("___________________");
+//        System.out.println("___");
         Cell[] arr = new Cell[neighbors.size()];
         arr= neighbors.toArray(arr);
         int aliveNeighbors = 0;
@@ -24,8 +24,8 @@ public class LifeCell extends Cell{
                 aliveNeighbors += 1;
             }
         }
-
         ambience = aliveNeighbors;
+        update();
     }
 
     @Override
@@ -35,7 +35,6 @@ public class LifeCell extends Cell{
         }else if(ambience ==3){
             status =1;
         }
-
     }
 
     @Override
@@ -77,4 +76,3 @@ public class LifeCell extends Cell{
         return ambience;
     }
 }
-

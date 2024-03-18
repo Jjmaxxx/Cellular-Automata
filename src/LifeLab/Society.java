@@ -3,13 +3,13 @@ package LifeLab;
 import CALab.Cell;
 import CALab.Grid;
 
-public class LifeGrid extends Grid{
-    public LifeGrid(){
+public class Society extends Grid{
+    public Society(){
         super();
     }
     @Override
     public Cell makeCell(boolean uniform){
-        return new LifeCell(uniform);
+        return new Agent(uniform);
     }
 }
 
