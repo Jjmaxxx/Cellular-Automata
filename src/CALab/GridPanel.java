@@ -28,9 +28,5 @@ public class GridPanel extends AppPanel {
         run50.addActionListener(this);
         controlPanel.add(run50);
     }
-    public static void main(String[] args) {
-        AppFactory factory = new GridFactory();
-        AppPanel panel = new GridPanel(factory);
-        panel.display();
-    }
+
 }

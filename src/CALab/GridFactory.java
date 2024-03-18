@@ -5,7 +5,7 @@ import stoplightSim2.ChangeCommand;
 
 public class GridFactory implements AppFactory {
     public Model makeModel() {
-        return new MakeGrid();
+        return null;
     }
 
     public View makeView(Model m) {

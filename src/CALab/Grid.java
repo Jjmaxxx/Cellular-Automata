@@ -143,12 +143,3 @@ public abstract class Grid extends Model {
     }
 }
 
-class MakeGrid extends Grid{
-    public MakeGrid(){
-        super();
-    }
-    @Override
-    public Cell makeCell(boolean uniform) {
-        return new MakeCell(uniform);
-    }
-}
