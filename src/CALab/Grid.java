@@ -21,21 +21,46 @@ public abstract class Grid extends Model {
         cells = new Cell[dim][dim];
         populate();
     }
-    public Grid() { this(20); }
+    public Grid() {this(20); }
 
     protected void populate() {
         // 1. use makeCell to fill in cells
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+
+                cells[row][col]= makeCell(false);
+                cells[row][col].col = col;
+                cells[row][col].row = row;
+            }
+        }
         // 2. use getNeighbors to set the neighbors field of each cell
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                cells[row][col].neighbors =  getNeighbors(cells[row][col], 1);
+            }
+        }
     }
 
     // called when Populate button is clicked
     public void repopulate(boolean randomly) {
         if (randomly) {
             // randomly set the status of each cell
-        } else {
-            // set the status of each cell to 0 (dead)
+            for (int row = 0; row < dim; row++) {
+                for (int col = 0; col < dim; col++) {
+                    cells[row][col].reset(true); // Reset cell states randomly
+                }
+            }
         }
-        // notify subscribers
+        else {
+            // set the status of each cell to 0 (dead)
+            for (int row = 0; row < dim; row++) {
+                for (int col = 0; col < dim; col++) {
+                    cells[row][col].reset(false); // Reset cell states to 0 (dead)
+                }
+            }
+        }
+        // Notify subscribers about the changes
+        notifySubscribers();
     }
 
 
@@ -46,7 +71,23 @@ public abstract class Grid extends Model {
         Tricky part: cells in row/col 0 or dim - 1.
         The asker is not a neighbor of itself.
         */
-        return null;
+
+        Set<Cell> neighbors = new HashSet<>();
+        int row = asker.row;
+        int col = asker.col;
+        int minRow = Math.max(0, row - radius); // Handle edge cases
+        int maxRow = Math.min(dim - 1, row + radius);
+        int minCol = Math.max(0, col - radius);
+        int maxCol = Math.min(dim - 1, col + radius);
+
+        for (int i = minRow; i <= maxRow; i++) {
+            for (int j = minCol; j <= maxCol; j++) {
+                if (i != row || j != col) { // Exclude asker as a neighbour
+                    neighbors.add(cells[i][j]);
+                }
+            }
+        }
+        return neighbors;
     }
 
     // overide these
@@ -57,14 +98,33 @@ public abstract class Grid extends Model {
 
     public void observe() {
         // call each cell's observe method and notify subscribers
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                cells[row][col].observe();
+            }
+        }
+        notifySubscribers();
     }
 
     public void interact() {
         // ???
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                cells[row][col].interact();
+            }
+        }
+        notifySubscribers();
     }
 
     public void update() {
         // ???
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                cells[row][col].update();
+
+            }
+        }
+        notifySubscribers();
     }
 
     public void updateLoop(int cycles) {
@@ -77,5 +137,18 @@ public abstract class Grid extends Model {
             System.out.println("time = " + time);
         }
     }
+    public void clear(){
+        // ? maybe
+        repopulate(false);
+    }
 }
 
+class MakeGrid extends Grid{
+    public MakeGrid(){
+        super();
+    }
+    @Override
+    public Cell makeCell(boolean uniform) {
+        return new MakeCell(uniform);
+    }
+}
