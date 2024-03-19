@@ -26,6 +26,7 @@ public class CellView extends JButton implements ActionListener, Subscriber {
         myCell.nextState();
 //        System.out.println("click");
         update();
+
         // call update needed?
     }
 

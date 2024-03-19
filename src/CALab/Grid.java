@@ -128,14 +128,16 @@ public abstract class Grid extends Model {
     }
 
     public void updateLoop(int cycles) {
-        observe();
+//        observe();
         for(int cycle = 0; cycle < cycles; cycle++) {
+            observe();
             interact();
             update();
-            observe();
             time++;
             System.out.println("time = " + time);
         }
+//        observe();
+        notifySubscribers();
     }
     public void clear(){
         // ? maybe

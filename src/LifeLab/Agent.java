@@ -11,11 +11,7 @@ public class Agent extends Cell{
     }
     @Override
     public void observe() {
-//        System.out.println("i am at row:" + row + " col: " + col);
-//        for (Cell item : neighbors) {
-//            System.out.println(" row: " + item.row + "col: " +item.col);
-//        }
-//        System.out.println("___");
+
         Cell[] arr = new Cell[neighbors.size()];
         arr= neighbors.toArray(arr);
         int aliveNeighbors = 0;
@@ -25,28 +21,30 @@ public class Agent extends Cell{
             }
         }
         ambience = aliveNeighbors;
-        update();
+        notifySubscribers();
     }
 
     @Override
     public void interact() {
-        if(ambience<2 || ambience>4){
-            status =0;
-        }else if(ambience ==3){
-            status =1;
-        }
+
     }
 
     @Override
     public void update() {
-        notifySubscribers();
+        if(ambience<2 || ambience>3){
+            status =0;
+        }else if(ambience ==3 && status ==0){
+            status =1;
+        }
+
+//        notifySubscribers();
     }
 
     @Override
     public void nextState() {
         if(this.status == 0){
             this.status = 1;
-        }else{
+        }else {
             this.status = 0;
         }
     }
@@ -58,9 +56,10 @@ public class Agent extends Cell{
             status = random.nextInt(2);
         }else{
             status = 0;
+
         }
         ambience=0;
-        update();
+        notifySubscribers();
     }
 
     @Override
