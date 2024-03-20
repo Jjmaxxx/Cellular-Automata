@@ -16,7 +16,7 @@ public class CellView extends JButton implements ActionListener, Subscriber {
         update();
     }
 
-    public CellView() { this(null); }
+//    public CellView() { this(null); }
 
 
 

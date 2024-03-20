@@ -1,10 +1,9 @@
 package CALab;
 
 import mvc.*;
-import stoplightSim2.ChangeCommand;
 
 public class GridFactory implements AppFactory {
-    public Model makeModel() {
+    public Model makeModel(){
         return null;
     }
 

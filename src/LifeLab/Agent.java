@@ -49,6 +49,7 @@ public class Agent extends Cell {
         }else {
             this.status = 0;
         }
+        notifySubscribers();
     }
 
     @Override
@@ -56,6 +57,8 @@ public class Agent extends Cell {
         if (randomly) {
             if (Math.random() < Society.percentAlive / 100.0) {
                 status = 1;
+            }else{
+                status = 0;
             }
         } else {
             status = 0;

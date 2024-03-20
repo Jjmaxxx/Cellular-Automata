@@ -39,6 +39,7 @@ public abstract class Grid extends Model {
                 cells[row][col].neighbors =  getNeighbors(cells[row][col], 1);
             }
         }
+        changed();
     }
 
     // called when Populate button is clicked
@@ -60,7 +61,8 @@ public abstract class Grid extends Model {
             }
         }
         // Notify subscribers about the changes
-        notifySubscribers();
+//        notifySubscribers();
+        changed();
     }
 
 
@@ -140,6 +142,7 @@ public abstract class Grid extends Model {
     public void clear(){
         // ? maybe
         repopulate(false);
+        changed();
     }
 }
 

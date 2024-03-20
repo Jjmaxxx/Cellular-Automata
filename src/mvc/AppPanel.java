@@ -20,7 +20,9 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
         // initialize fields here
         this.factory = factory;
         model = factory.makeModel();
+        System.out.println(model);
         view = factory.makeView(model);
+
         view.setBackground((Color.GRAY));
         controlPanel = new JPanel();
         controlPanel.setBackground((Color.WHITE));
@@ -28,7 +30,6 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
         add(controlPanel);
         add(view);
         model.subscribe(this);
-
         frame = new SafeFrame();
         Container cp = frame.getContentPane();
         cp.add(this);
@@ -50,6 +51,7 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
         this.model.subscribe(this);
 
         // view must also unsubscribe then resubscribe:
+        System.out.println(model);
         view.setModel(model);
         model.changed();
     }
