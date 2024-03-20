@@ -15,13 +15,13 @@ public abstract class Grid extends Model {
     public Cell getCell(int row, int col) { return cells[row][col]; }
     public abstract Cell makeCell(boolean uniform);
 
-
-    public Grid(int dim) {
-        this.dim = dim;
+//    public Grid() {super(this);this(dim); }
+    public Grid() {
+//        this.dim = dim;
         cells = new Cell[dim][dim];
         populate();
     }
-    public Grid() {this(20); }
+
 
     protected void populate() {
         // 1. use makeCell to fill in cells
@@ -75,15 +75,12 @@ public abstract class Grid extends Model {
         Set<Cell> neighbors = new HashSet<>();
         int row = asker.row;
         int col = asker.col;
-        int minRow = Math.max(0, row - radius); // Handle edge cases
-        int maxRow = Math.min(dim - 1, row + radius);
-        int minCol = Math.max(0, col - radius);
-        int maxCol = Math.min(dim - 1, col + radius);
-
-        for (int i = minRow; i <= maxRow; i++) {
-            for (int j = minCol; j <= maxCol; j++) {
-                if (i != row || j != col) { // Exclude asker as a neighbour
-                    neighbors.add(cells[i][j]);
+        for (int i = row - radius; i <= row + radius; i++) {
+            for (int j = col - radius; j <= col + radius; j++) {
+                int wrappedRow = (i + dim) % dim;
+                int wrappedCol = (j + dim) % dim;
+                if (!(i == row && j == col)) {
+                    neighbors.add(cells[wrappedRow][wrappedCol]);
                 }
             }
         }
@@ -136,8 +133,9 @@ public abstract class Grid extends Model {
             time++;
             System.out.println("time = " + time);
         }
-//        observe();
-        notifySubscribers();
+        //observe();
+        // notifySubscribers();
+        changed();
     }
     public void clear(){
         // ? maybe

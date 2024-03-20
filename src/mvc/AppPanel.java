@@ -48,11 +48,11 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
         this.model.unsubscribe(this);
         this.model = newModel;
         this.model.subscribe(this);
+
         // view must also unsubscribe then resubscribe:
-        view.setModel(this.model);
+        view.setModel(model);
         model.changed();
     }
-
     protected JMenuBar createMenuBar() {
         JMenuBar result = new JMenuBar();
         // add file, edit, and help menus
