@@ -15,27 +15,54 @@ public abstract class Grid extends Model {
     public Cell getCell(int row, int col) { return cells[row][col]; }
     public abstract Cell makeCell(boolean uniform);
 
-
-    public Grid(int dim) {
-        this.dim = dim;
+//    public Grid() {super(this);this(dim); }
+    public Grid() {
+//        this.dim = dim;
         cells = new Cell[dim][dim];
         populate();
     }
-    public Grid() { this(20); }
+
 
     protected void populate() {
         // 1. use makeCell to fill in cells
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+
+                cells[row][col]= makeCell(false);
+                cells[row][col].col = col;
+                cells[row][col].row = row;
+            }
+        }
         // 2. use getNeighbors to set the neighbors field of each cell
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                cells[row][col].neighbors =  getNeighbors(cells[row][col], 1);
+            }
+        }
+        changed();
     }
 
     // called when Populate button is clicked
     public void repopulate(boolean randomly) {
         if (randomly) {
             // randomly set the status of each cell
-        } else {
-            // set the status of each cell to 0 (dead)
+            for (int row = 0; row < dim; row++) {
+                for (int col = 0; col < dim; col++) {
+                    cells[row][col].reset(true); // Reset cell states randomly
+                }
+            }
         }
-        // notify subscribers
+        else {
+            // set the status of each cell to 0 (dead)
+            for (int row = 0; row < dim; row++) {
+                for (int col = 0; col < dim; col++) {
+                    cells[row][col].reset(false); // Reset cell states to 0 (dead)
+                }
+            }
+        }
+        // Notify subscribers about the changes
+//        notifySubscribers();
+        changed();
     }
 
 
@@ -46,7 +73,20 @@ public abstract class Grid extends Model {
         Tricky part: cells in row/col 0 or dim - 1.
         The asker is not a neighbor of itself.
         */
-        return null;
+
+        Set<Cell> neighbors = new HashSet<>();
+        int row = asker.row;
+        int col = asker.col;
+        for (int i = row - radius; i <= row + radius; i++) {
+            for (int j = col - radius; j <= col + radius; j++) {
+                int wrappedRow = (i + dim) % dim;
+                int wrappedCol = (j + dim) % dim;
+                if (!(i == row && j == col)) {
+                    neighbors.add(cells[wrappedRow][wrappedCol]);
+                }
+            }
+        }
+        return neighbors;
     }
 
     // overide these
@@ -57,25 +97,52 @@ public abstract class Grid extends Model {
 
     public void observe() {
         // call each cell's observe method and notify subscribers
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                cells[row][col].observe();
+            }
+        }
+        notifySubscribers();
     }
 
     public void interact() {
         // ???
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                cells[row][col].interact();
+            }
+        }
+        notifySubscribers();
     }
 
     public void update() {
         // ???
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                cells[row][col].update();
+
+            }
+        }
+        notifySubscribers();
     }
 
     public void updateLoop(int cycles) {
-        observe();
+//        observe();
         for(int cycle = 0; cycle < cycles; cycle++) {
+            observe();
             interact();
             update();
-            observe();
             time++;
             System.out.println("time = " + time);
         }
+        //observe();
+        // notifySubscribers();
+        changed();
+    }
+    public void clear(){
+        // ? maybe
+        repopulate(false);
+        changed();
     }
 }
 

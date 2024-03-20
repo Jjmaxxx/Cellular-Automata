@@ -18,7 +18,18 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
     public AppPanel(AppFactory factory) {
 
         // initialize fields here
+        this.factory = factory;
+        model = factory.makeModel();
+        System.out.println(model);
+        view = factory.makeView(model);
 
+        view.setBackground((Color.GRAY));
+        controlPanel = new JPanel();
+        controlPanel.setBackground((Color.WHITE));
+        setLayout(new GridLayout(1, 2));
+        add(controlPanel);
+        add(view);
+        model.subscribe(this);
         frame = new SafeFrame();
         Container cp = frame.getContentPane();
         cp.add(this);
@@ -38,11 +49,12 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
         this.model.unsubscribe(this);
         this.model = newModel;
         this.model.subscribe(this);
+
         // view must also unsubscribe then resubscribe:
-        view.setModel(this.model);
+        System.out.println(model);
+        view.setModel(model);
         model.changed();
     }
-
     protected JMenuBar createMenuBar() {
         JMenuBar result = new JMenuBar();
         // add file, edit, and help menus
@@ -67,8 +79,10 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
 
             if (cmmd.equals("Save")) {
                 Utilities.save(model, false);
+//                model.setUnsavedChanges(false);
             } else if (cmmd.equals("SaveAs")) {
                 Utilities.save(model, true);
+//                model.setUnsavedChanges(false);
             } else if (cmmd.equals("Open")) {
                 Model newModel = Utilities.open(model);
                 if (newModel != null) setModel(newModel);
@@ -86,6 +100,8 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
                 Utilities.inform(factory.getHelp());
             } else { // must be from Edit menu
                 //???
+                Command command = factory.makeEditCommand(model, cmmd, this);
+                command.execute();
             }
         } catch (Exception e) {
             handleException(e);

@@ -6,27 +6,18 @@ public class StoplightFactory implements AppFactory {
 
     public Model makeModel() { return new Stoplight(); }
 
-    @Override
-    public View makeView() {
-        return null;
-    }
-
     public View makeView(Model m) {
         return new StoplightView((Stoplight)m);
     }
 
     public String[] getEditCommands() { return new String[] {"Change"}; }
 
-    @Override
-    public Command makeEditCommand(String name) {
-        return null;
-    }
-
     // source added 3/15 to support text fields
     @Override
     public Command makeEditCommand(Model model, String type, Object source) {
-        if (type == "Change")
+        if (type.equals("Change")){
             return new ChangeCommand(model);
+        }
         return null;
     }
 
