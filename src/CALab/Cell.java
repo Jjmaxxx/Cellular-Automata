@@ -22,7 +22,6 @@ abstract public class Cell extends Publisher implements Serializable {
         }
     }
     public void choosePartner() {
-        //neighbors = myGrid.getNeighbors(this,1);
         if (partner == null && neighbors != null) {
             Cell[] arr = new Cell[neighbors.size()];
             arr= neighbors.toArray(arr);

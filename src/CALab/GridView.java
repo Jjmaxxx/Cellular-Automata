@@ -12,7 +12,19 @@ public class GridView extends View {
     public GridView(Model model) {
 
         super(model);
-        createCells();
+        int dim = ((Grid) model).getDim();
+        cellViews = new CellView[dim][dim];
+        setLayout(new GridLayout(dim, dim));
+
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                Cell cell = ((Grid) model).getCell(row, col);
+                CellView cellView = new CellView(cell);
+                cellView.update();
+                cellViews[row][col] = cellView;
+                add(cellView);
+            }
+        }
     }
 
     public void update() {
@@ -29,9 +41,6 @@ public class GridView extends View {
         model=newModel;
         model.subscribe(this);//me
         removeAll();
-        createCells();
-    }
-    public void createCells(){
         int dim = ((Grid) model).getDim();
         cellViews = new CellView[dim][dim];
         setLayout(new GridLayout(dim, dim));
