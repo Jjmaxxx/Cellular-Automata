@@ -12,7 +12,6 @@ public class Stoplight extends Model {
     }
 
     public void change() {
-//        System.out.println(color);
         if (color.equals(Color.GREEN)) color = Color.YELLOW;
         else if (color.equals(Color.YELLOW)) color = Color.RED;
         else if (color.equals(Color.RED)) color = Color.GREEN;

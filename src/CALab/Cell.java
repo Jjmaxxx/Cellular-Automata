@@ -21,9 +21,6 @@ abstract public class Cell extends Publisher implements Serializable {
             status =0;
         }
     }
-
-
-    // choose a random neighbor as a partner
     public void choosePartner() {
         //neighbors = myGrid.getNeighbors(this,1);
         if (partner == null && neighbors != null) {
@@ -44,12 +41,6 @@ abstract public class Cell extends Publisher implements Serializable {
                 partner = arr[randomIndex];
                 arr[randomIndex].partner = this;
             }
-			/*
-			Set partner to null
-			Convert neighbors set to a local array
-			Starting at a random position in the array search for a neighbor without a partner
-			Make the first such neighbor (if any) the partner and set its partner field to this
-			*/
         }
 
     }

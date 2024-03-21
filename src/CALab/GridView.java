@@ -12,18 +12,10 @@ public class GridView extends View {
     public GridView(Model model) {
 
         super(model);
-
-        /*
-        Cell cell = new CellView(((Grid)model).getCell(row, col)
-                cellViews[row][col] = cell
-                set cell.row and cell.col here
-        */
         createCells();
     }
 
     public void update() {
-//        System.out.println("updating view");
-        // call update method of each CellView
         for (int row = 0; row < cellViews.length; row++) {
             for (int col = 0; col < cellViews[row].length; col++) {
                 cellViews[row][col].update();

@@ -7,11 +7,6 @@ public class GridPanel extends AppPanel {
 
     public GridPanel(AppFactory factory) {
         super(factory);
-
-//        gridView = (GridView) factory.makeView();
-//        add(gridView, BorderLayout.CENTER);
-
-        //control buttons
         JButton populateButton = new JButton("Populate");
         populateButton.addActionListener(this);
         controlPanel.add(populateButton);

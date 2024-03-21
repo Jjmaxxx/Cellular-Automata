@@ -36,8 +36,6 @@ public class MyCell extends Cell{
         }else if(ambience ==3 && status ==0){
             status =1;
         }
-
-//        notifySubscribers();
     }
 
     @Override

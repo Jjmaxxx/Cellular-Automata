@@ -13,5 +13,8 @@ public class MyGridFactory extends GridFactory {
     }
     public String about() {
         return "Conway Lab Simulator 2024";
+
     }
+    public String getTitle() {
+        return "Conway's Game Of Life Simulator";     }
 }

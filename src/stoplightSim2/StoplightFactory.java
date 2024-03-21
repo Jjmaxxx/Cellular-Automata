@@ -12,7 +12,6 @@ public class StoplightFactory implements AppFactory {
 
     public String[] getEditCommands() { return new String[] {"Change"}; }
 
-    // source added 3/15 to support text fields
     @Override
     public Command makeEditCommand(Model model, String type, Object source) {
         if (type.equals("Change")){

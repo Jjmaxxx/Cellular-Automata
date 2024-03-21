@@ -7,7 +7,6 @@ public abstract class Model extends Publisher implements Serializable {
     Boolean unsavedChanges = false;
     String fileName = null;
 
-    // TODO: All methods below
     public boolean getUnsavedChanges() {
         return unsavedChanges;
     }
@@ -27,10 +26,6 @@ public abstract class Model extends Publisher implements Serializable {
     public void changed() {
         setUnsavedChanges(true); //me
         notifySubscribers();
-//        firePropertyChange("unsavedChanges", false, true);
     }
 
-//    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-//
-//    }
 }
