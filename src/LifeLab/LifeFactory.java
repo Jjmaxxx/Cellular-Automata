@@ -14,4 +14,7 @@ public class LifeFactory extends GridFactory {
     public String about() {
         return "Life Lab Simulator 2024";
     }
+    public String getTitle() {
+        return "Life Lab Simulator";
+    }
 }

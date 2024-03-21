@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-// rename as Controller?
 public class AppPanel extends JPanel implements Subscriber, ActionListener  {
 
     protected Model model;
@@ -25,7 +24,6 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
 
         view.setBackground((Color.GRAY));
         controlPanel = new JPanel();
-        controlPanel.setBackground((Color.WHITE));
         setLayout(new GridLayout(1, 2));
         add(controlPanel);
         add(view);
@@ -44,20 +42,16 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
 
     public Model getModel() { return model; }
 
-    // called by file/open and file/new
     public void setModel(Model newModel) {
         this.model.unsubscribe(this);
         this.model = newModel;
         this.model.subscribe(this);
 
-        // view must also unsubscribe then resubscribe:
-        System.out.println(model);
         view.setModel(model);
         model.changed();
     }
     protected JMenuBar createMenuBar() {
         JMenuBar result = new JMenuBar();
-        // add file, edit, and help menus
         JMenu fileMenu =
                 Utilities.makeMenu("File", new String[] {"New",  "Save", "SaveAs", "Open", "Quit"}, this);
         result.add(fileMenu);
@@ -79,17 +73,16 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
 
             if (cmmd.equals("Save")) {
                 Utilities.save(model, false);
-//                model.setUnsavedChanges(false);
+                model.setUnsavedChanges(false);
             } else if (cmmd.equals("SaveAs")) {
                 Utilities.save(model, true);
-//                model.setUnsavedChanges(false);
+                model.setUnsavedChanges(false);
             } else if (cmmd.equals("Open")) {
                 Model newModel = Utilities.open(model);
                 if (newModel != null) setModel(newModel);
             } else if (cmmd.equals("New")) {
                 Utilities.saveChanges(model);
                 setModel(factory.makeModel());
-                // needed cuz setModel sets to true:
                 model.setUnsavedChanges(false);
             } else if (cmmd.equals("Quit")) {
                 Utilities.saveChanges(model);
@@ -98,8 +91,7 @@ public class AppPanel extends JPanel implements Subscriber, ActionListener  {
                 Utilities.inform(factory.about());
             } else if (cmmd.equals("Help")) {
                 Utilities.inform(factory.getHelp());
-            } else { // must be from Edit menu
-                //???
+            } else {
                 Command command = factory.makeEditCommand(model, cmmd, this);
                 command.execute();
             }

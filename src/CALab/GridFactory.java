@@ -42,8 +42,4 @@ public class GridFactory implements AppFactory {
         return "Cellular Automata Simulator";
     }
 
-//    public String[] getEditCommands() {
-//        return new String[]{"edit commands here"};
-//    }
-
 }

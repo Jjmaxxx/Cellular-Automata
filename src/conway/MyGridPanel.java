@@ -14,9 +14,4 @@ public class MyGridPanel extends GridPanel{
         GridPanel p = new GridPanel(f);
         p.display();
     }
-//    public static void main(String[] args) {
-//        AppFactory factory = new GridFactory();
-//        AppPanel panel = new GridPanel(factory);
-//        panel.display();
-//    }
 }
